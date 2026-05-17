@@ -163,7 +163,7 @@ def create_particle_json(block_name, texture_path, lifetime, size, tex_size):
                 "minecraft:particle_motion_static": {},
                 # 广告牌渲染（始终面向相机）
                 "minecraft:particle_appearance_billboard": {
-                    "size": [size, size],
+                    "size": [size * 0.5, size * 0.5],
                     "facing_camera_mode": "rotate_xyz",
                     "uv": {
                         "texture_width": tex_size,
@@ -207,7 +207,7 @@ def create_error_particle_json(block_name, texture_path, lifetime, size, tex_siz
                 },
                 "minecraft:particle_motion_static": {},
                 "minecraft:particle_appearance_billboard": {
-                    "size": [size, size],
+                    "size": [size * 0.5, size * 0.5],
                     "facing_camera_mode": "rotate_xyz",
                     "uv": {
                         "texture_width": tex_size,
@@ -711,11 +711,18 @@ class App(tk.Tk):
             # 生成 manifest.json
             scale_label = self.scale_var.get()
             desc = (
-                f"LitematicaBE投影材质包 | "
-                f"{processed}种方块粒子 | "
-                f"分辨率{scale_label} | "
-                f"粒子大小{size} | "
-                f"持续{int(lifetime)}秒"
+
+                f"LitematicaBE 资源包\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"包含 {processed} 种方块粒子\n"
+                f"分辨率缩放: {scale_label}（原始尺寸 × {RESOLUTION_MAP.get(scale_label, 1.0)}）\n"
+                f"粒子显示大小: {size}\n"
+                f"⏱粒子持续时间: {int(lifetime)} 秒\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"使用说明：\n"
+                f"1. 激活资源包\n"
+                f"2. 配合 LitematicaBE 插件使用\n"
+                f"3. 确保插件配置中的粒子持续时间与本材质包一致"
             )
             manifest = generate_manifest(desc)
             with open(os.path.join(tmp, "manifest.json"), "w", encoding="utf-8") as fp:
